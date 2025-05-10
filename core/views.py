@@ -106,7 +106,7 @@ def search_photos(request):
     raw_query = f"""
         SELECT * FROM core_photo
         WHERE owner_id = {request.user.id} AND
-        title LIKE '%{query}%'
+        caption LIKE '%{query}%'
     """
     with connection.cursor() as cursor:
         cursor.execute(raw_query)
