@@ -1,0 +1,16 @@
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if photos %}
+  <ul>
+    {% for row in photos %}
+      <li>
+        Photo ID: {{ row.0 }} — Caption: {{ row.3 }}  
+        (Album ID: {{ row.2 }})
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No matching photos.</p>
+{% endif %}
+
+<a href="{% url 'dashboard' %}">← Back to Dashboard</a>

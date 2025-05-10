@@ -62,6 +62,9 @@ def upload_photo(request):
         form = PhotoForm(request.POST, request.FILES)
         form.fields['album'].queryset = Album.objects.filter(owner=request.user)
         if form.is_valid():
+            photo = form.save(commit=False) 
+            photo.owner = request.user # Saving the owner of the photo
+            photo.save()
             form.save()
             return redirect('dashboard')
     else:
@@ -95,4 +98,22 @@ def view_album(request, album_id):
             'photos': photos
         })
 
+@login_required
+def search_photos(request):
+    query = request.GET.get('q', '')
 
+    # A02: SQL Injection: The search query is allowing SQL injection attacks
+    raw_query = f"""
+        SELECT * FROM core_photo
+        WHERE owner_id = {request.user.id} AND
+        title LIKE '%{query}%'
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(raw_query)
+        rows = cursor.fetchall()
+
+
+    return render(request, 'search_results.html', {
+        'photos': rows,
+        'query': query
+    })
