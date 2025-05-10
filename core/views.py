@@ -1,12 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import RegisterForm
 from .models import Album, Photo
 from .forms import AlbumForm, PhotoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import get_object_or_404
 
+
+def home_redirect(request):
+    return redirect('dashboard')
 
 def register_view(request):
     if request.method == 'POST':
@@ -78,3 +80,4 @@ def view_album(request, album_id):
         'album': album,
         'photos': photos
     })
+

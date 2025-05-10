@@ -45,6 +45,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 ALLOWED_HOSTS = ['*'] # Allow all hosts for development
 DEBUG = True # Enable debug mode for development
+LOGIN_URL = '/login/' # Fix: custom login URL (default /accounts/login/)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
