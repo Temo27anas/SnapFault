@@ -2,11 +2,20 @@
 
 {% if photos %}
   <ul>
-    {% for row in photos %}
+    {% for photo in photos %}
+    <!-- A03: Fomat post the fix
       <li>
-        Photo ID: {{ row.0 }} — Caption: {{ row.3 }}  
-        (Album ID: {{ row.2 }})
+        Photo ID: {{ photo.0 }} — Caption: {{ photo.3 }}  
+        (Album ID: {{ photo.2 }})
       </li>
+    -->
+
+      <!-- A03: Fomat after the fix-->
+      <li>
+        Photo ID: {{ photo.id }} — Caption: {{ photo.caption }}  
+        (Album ID: {{ photo.album }})
+      </li>
+    
     {% endfor %}
   </ul>
 {% else %}

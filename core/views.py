@@ -102,18 +102,31 @@ def view_album(request, album_id):
 def search_photos(request):
     query = request.GET.get('q', '')
 
-    # A02: SQL Injection: The search query is allowing SQL injection attacks
-    raw_query = f"""
-        SELECT * FROM core_photo
-        WHERE owner_id = {request.user.id} AND
-        caption LIKE '%{query}%'
-    """
-    with connection.cursor() as cursor:
-        cursor.execute(raw_query)
-        rows = cursor.fetchall()
+    # A03: SQL Injection: The search query is allowing SQL injection attacks
+    # Uncomment the following code to reproduce the issue
+    # How to test: Search in the app:   ?q=' OR 1=1--  
+     
+    #raw_query = f"""
+    #   SELECT * FROM core_photo
+    #   WHERE owner_id = {request.user.id} AND
+    #   caption LIKE '%{query}%'
+    #"""
+    #with connection.cursor() as cursor:
+    #   cursor.execute(raw_query)
+    #   photos = cursor.fetchall()
+    #
+    #return render(request, 'search_results.html', {
+    #   'photos': photos,
+    #   'query': query
+    #})
 
-
+    # A03: SQL Injection - Fix
+    query = request.GET.get('q', '')
+    photos = Photo.objects.filter(caption__icontains=query, album__owner=request.user) # ORM automatically parameterizes input
+    print(photos)
     return render(request, 'search_results.html', {
-        'photos': rows,
+        'photos': photos,
         'query': query
     })
+
+
