@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import login, logout, authenticate
-from .forms import RegisterForm
+from django.contrib.auth import login, logout
 from .models import Album, Photo
-from .forms import AlbumForm, PhotoForm
+from .forms import AlbumForm, PhotoForm, RegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpResponseForbidden
+from django.db import connection
+
 
 
 def home_redirect(request):
@@ -71,13 +73,26 @@ def upload_photo(request):
 @login_required
 def view_album(request, album_id):
     album = get_object_or_404(Album, id=album_id)
-    
-    # Broken Access Control Flaw (deliberate)
-    # No check if album.owner == request.user &  no check for public/private access
 
-    photos = Photo.objects.filter(album=album)
-    return render(request, 'view_album.html', {
-        'album': album,
-        'photos': photos
-    })
+
+    # A01: Broken Access Control: The users could access other users' "private" albums.
+    
+    #Uncomment the following code to reproduce the issue
+    # How to test: login as one user, create an album, then log in as another and manually visit /albums/<AlbumID>/
+    #photos = Photo.objects.filter(album=album)
+    #return render(request, 'view_album.html', {
+    #    'album': album,
+    #    'photos': photos
+    #})
+
+    #A01:Broken Access Control -  Fix
+    if album.owner != request.user and album.is_private: # Different owner or not a public album
+        return HttpResponseForbidden("You are not allowed to access this album.")
+    else:
+        photos = Photo.objects.filter(album=album)
+        return render(request, 'view_album.html', {
+            'album': album,
+            'photos': photos
+        })
+
 

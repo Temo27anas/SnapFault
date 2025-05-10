@@ -17,8 +17,6 @@ urlpatterns = [
     path('albums/<int:album_id>/', core_views.view_album, name='view_album'),
 ]
 
-
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
