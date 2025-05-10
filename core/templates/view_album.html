@@ -1,0 +1,15 @@
+<h2>Album: {{ album.name }}</h2>
+<p>Owner: {{ album.owner.username }} | {% if album.is_private %}Private{% else %}Public{% endif %}</p>
+
+<div>
+  {% for photo in photos %}
+    <div style="margin-bottom: 10px;">
+      <img src="{{ photo.image.url }}" alt="Photo" style="max-height: 200px;" />
+      <p>{{ photo.caption }}</p>
+    </div>
+  {% empty %}
+    <p>No photos in this album yet.</p>
+  {% endfor %}
+</div>
+
+<a href="{% url 'dashboard' %}">← Back to dashboard</a>

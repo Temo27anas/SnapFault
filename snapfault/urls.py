@@ -13,6 +13,8 @@ urlpatterns = [
     path('logout/', core_views.logout_view, name='logout'),
     path('albums/new/', core_views.create_album, name='create_album'),
     path('photos/upload/', core_views.upload_photo, name='upload_photo'),
+    path('albums/<int:album_id>/', core_views.view_album, name='view_album'),
+
 ]
 
 if settings.DEBUG:

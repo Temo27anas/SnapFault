@@ -5,6 +5,8 @@ from .models import Album, Photo
 from .forms import AlbumForm, PhotoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import get_object_or_404
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -62,3 +64,17 @@ def upload_photo(request):
         form = PhotoForm()
         form.fields['album'].queryset = Album.objects.filter(owner=request.user)
     return render(request, 'upload_photo.html', {'form': form})
+
+
+@login_required
+def view_album(request, album_id):
+    album = get_object_or_404(Album, id=album_id)
+    
+    # Broken Access Control Flaw (deliberate)
+    # No check if album.owner == request.user &  no check for public/private access
+
+    photos = Photo.objects.filter(album=album)
+    return render(request, 'view_album.html', {
+        'album': album,
+        'photos': photos
+    })
