@@ -8,7 +8,6 @@ from django.http import HttpResponseForbidden
 from django.db import connection
 
 
-
 def home_redirect(request):
     return redirect('dashboard')
 
@@ -72,7 +71,6 @@ def upload_photo(request):
         form.fields['album'].queryset = Album.objects.filter(owner=request.user)
     return render(request, 'upload_photo.html', {'form': form})
 
-
 @login_required
 def view_album(request, album_id):
     album = get_object_or_404(Album, id=album_id)
@@ -128,5 +126,3 @@ def search_photos(request):
         'photos': photos,
         'query': query
     })
-
-

@@ -17,6 +17,7 @@ urlpatterns = [
     path('albums/<int:album_id>/', core_views.view_album, name='view_album'),
     path('search/', core_views.search_photos, name='search_photos'),
 
+
 ]
 
 if settings.DEBUG:

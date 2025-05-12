@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+FERNET_KEY = b'AKtOZfw9mVobzbF9Ywsx9SUryIwuqr3F8eardR3ughs=' # Fix: A02 - Cryptographic Failures (Key should be securely generated and stored)
 
 # Application definition
 

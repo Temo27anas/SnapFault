@@ -6,7 +6,9 @@
     <div style="margin-bottom: 10px;">
       <img src="{{ photo.image.url }}" alt="Photo" style="max-height: 200px;" />
       
-      <p>{{ photo.caption}}</p>
+      <p>Caption: {{ photo.caption}}</p>
+      <p>Location: {{ photo.location }}</p>
+      <p>---------------------------------</p>
 
     </div>
   {% empty %}
