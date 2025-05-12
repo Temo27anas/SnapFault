@@ -60,12 +60,22 @@ def upload_photo(request):
     if request.method == 'POST':
         form = PhotoForm(request.POST, request.FILES)
         form.fields['album'].queryset = Album.objects.filter(owner=request.user)
+
         if form.is_valid():
-            photo = form.save(commit=False) 
-            photo.owner = request.user # Saving the owner of the photo
-            photo.save()
-            form.save() # A02 - encryption happens automatically
-            return redirect('dashboard')
+
+            # Fix A10: Server-Side Request Forgery (SSRF)
+            image = request.FILES['image']
+            if image.content_type not in ['image/jpeg', 'image/png', 'image/gif']:
+                form.add_error('image', 'Only JPEG, PNG, and GIF images are allowed.')
+            elif image.size > 5000000:  # 5MB limit
+                form.add_error('image', 'File size too large. Max allowed size is 5MB.')
+
+            else:
+                photo = form.save(commit=False) 
+                photo.owner = request.user # Saving the owner of the photo
+                photo.save()
+                form.save() # A02 - encryption happens automatically
+                return redirect('dashboard')
     else:
         form = PhotoForm()
         form.fields['album'].queryset = Album.objects.filter(owner=request.user)
