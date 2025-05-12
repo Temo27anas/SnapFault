@@ -64,7 +64,7 @@ def upload_photo(request):
             photo = form.save(commit=False) 
             photo.owner = request.user # Saving the owner of the photo
             photo.save()
-            form.save()
+            form.save() # A02 - encryption happens automatically
             return redirect('dashboard')
     else:
         form = PhotoForm()
