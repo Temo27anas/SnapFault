@@ -1,6 +1,29 @@
 <h2>Upload Photo</h2>
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" onsubmit="return validateFile()">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Upload</button>
 </form>
+
+<!-- A10:2021 – Server-Side Request Forgery (SSRF):
+  This is only a client-side validation -->
+<script>
+    function validateFile() {
+        var fileInput = document.getElementById("id_image");
+        var file = fileInput.files[0];
+        var fileType = file.type;
+        var fileSize = file.size;
+
+        if (fileSize > 5000000) {  // Max 5MB file size
+            alert("file is too large. Max 5MB allowed.");
+            return false;
+        }
+
+        if (fileType != "image/jpeg" && fileType != "image/png") {
+            alert("only JPEG and PNG images are allowed.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
