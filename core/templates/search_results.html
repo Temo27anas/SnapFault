@@ -3,18 +3,19 @@
 {% if photos %}
   <ul>
     {% for photo in photos %}
-    <!-- A03: Fomat post the fix
+    <!-- A03: Injection --> 
       <li>
         Photo ID: {{ photo.0 }} — Caption: {{ photo.3 }}  
         (Album ID: {{ photo.2 }})
       </li>
-    -->
+    
 
-      <!-- A03: Fomat after the fix-->
+      <!-- Fix A03: Injection 
       <li>
         Photo ID: {{ photo.id }} — Caption: {{ photo.caption }}  
         (Album ID: {{ photo.album }})
       </li>
+      -->
     
     {% endfor %}
   </ul>

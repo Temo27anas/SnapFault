@@ -1,7 +1,5 @@
 media/
 draft
-db.sqlite3
 core/__pycache__/
 core/migrations/
-core/encryption.py
 venv/

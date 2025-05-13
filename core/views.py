@@ -63,18 +63,18 @@ def upload_photo(request):
 
         if form.is_valid():
 
-            # Fix A10: Server-Side Request Forgery (SSRF)
-            image = request.FILES['image']
-            if image.content_type not in ['image/jpeg', 'image/png', 'image/gif']:
-                form.add_error('image', 'Only JPEG, PNG, and GIF images are allowed.')
-            elif image.size > 5000000:  # 5MB limit
-                form.add_error('image', 'File size too large. Max allowed size is 5MB.')
+            # Fix A04: Insecure Design
+            #image = request.FILES['image']
+            #if image.content_type not in ['image/jpeg', 'image/png', 'image/gif']:
+            #    form.add_error('image', 'Only JPEG, PNG, and GIF images are allowed.')
+            #elif image.size > 5000000:  # 5MB limit
+            #    form.add_error('image', 'File size too large. Max allowed size is 5MB.')
+            #else:
 
-            else:
                 photo = form.save(commit=False) 
                 photo.owner = request.user # Saving the owner of the photo
                 photo.save()
-                form.save() # A02 - encryption happens automatically
+                form.save() # Fix A02 (2)
                 return redirect('dashboard')
     else:
         form = PhotoForm()
@@ -87,52 +87,47 @@ def view_album(request, album_id):
 
 
     # A01: Broken Access Control: The users could access other users' "private" albums.
-    
-    #Uncomment the following code to reproduce the issue
-    # How to test: login as one user, create an album, then log in as another and manually visit /albums/<AlbumID>/
-    #photos = Photo.objects.filter(album=album)
-    #return render(request, 'view_album.html', {
-    #    'album': album,
-    #    'photos': photos
-    #})
+    photos = Photo.objects.filter(album=album)
+    return render(request, 'view_album.html', {
+        'album': album,
+        'photos': photos
+    })
 
-    #A01:Broken Access Control -  Fix
-    if album.owner != request.user and album.is_private: # Different owner or not a public album
-        return HttpResponseForbidden("You are not allowed to access this album.")
-    else:
-        photos = Photo.objects.filter(album=album)
-        return render(request, 'view_album.html', {
-            'album': album,
-            'photos': photos
-        })
+    #Fix A01:Broken Access Control 
+    #if album.owner != request.user and album.is_private: # Different owner or not a public album
+    #    return HttpResponseForbidden("You are not allowed to access this album.")
+    #else:
+    #    photos = Photo.objects.filter(album=album)
+    #    return render(request, 'view_album.html', {
+    #        'album': album,
+    #        'photos': photos
+    #    })
 
 @login_required
 def search_photos(request):
     query = request.GET.get('q', '')
 
     # A03: SQL Injection: The search query is allowing SQL injection attacks
-    # Uncomment the following code to reproduce the issue
     # How to test: Search in the app:   ?q=' OR 1=1--  
      
-    #raw_query = f"""
-    #   SELECT * FROM core_photo
-    #   WHERE owner_id = {request.user.id} AND
-    #   caption LIKE '%{query}%'
-    #"""
-    #with connection.cursor() as cursor:
-    #   cursor.execute(raw_query)
-    #   photos = cursor.fetchall()
-    #
-    #return render(request, 'search_results.html', {
-    #   'photos': photos,
-    #   'query': query
-    #})
+    raw_query = f"""
+       SELECT * FROM core_photo
+       WHERE owner_id = {request.user.id} AND
+       caption LIKE '%{query}%'
+    """
+    with connection.cursor() as cursor:
+       cursor.execute(raw_query)
+       photos = cursor.fetchall()
+    
+    return render(request, 'search_results.html', {
+       'photos': photos,
+       'query': query
+    })
 
     # A03: SQL Injection - Fix
-    query = request.GET.get('q', '')
-    photos = Photo.objects.filter(caption__icontains=query, album__owner=request.user) # ORM automatically parameterizes input
-    print(photos)
-    return render(request, 'search_results.html', {
-        'photos': photos,
-        'query': query
-    })
+    #query = request.GET.get('q', '')
+    #photos = Photo.objects.filter(caption__icontains=query, album__owner=request.user) # ORM automatically parameterizes input
+    #return render(request, 'search_results.html', {
+    #    'photos': photos,
+    #    'query': query
+    #})

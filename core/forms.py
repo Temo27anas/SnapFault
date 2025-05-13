@@ -16,7 +16,23 @@ class AlbumForm(forms.ModelForm):
         fields = ['name', 'is_private']
 
 class PhotoForm(forms.ModelForm):
+    # Fix A02 1/2: 
+    #location = forms.CharField(required=False, max_length=255) # This creates a custom form field for location 
+
     class Meta:
         model = Photo
-        fields = ['album', 'image', 'caption', 'location']
-    
+        # A02 : Cryptographic Failures - Encrypt location before saving
+        fields = ['album', 'image', 'caption', 'location']  # Comment this line to fix A02
+
+    # Fix A02 2/2: 
+    #fields = ['album', 'image', 'caption'] # no location field in the form
+    #def save(self, commit=True):
+    #   photo = super().save(commit=False)
+    #   location = self.cleaned_data.get('location')
+    #
+    #   if location:
+    #       photo.location = location  # uses the @property setter to encrypt
+    #
+    #   if commit:
+    #       photo.save() # overrode .save() to call "virtual location" setter
+    #   return photo
