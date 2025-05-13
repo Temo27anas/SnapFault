@@ -42,7 +42,7 @@ In our application, the photo search feature enables users to search their uploa
 Fix:
 The issue was resolved by using Django’s Object-Relational Mapping (ORM) system, which safely parameterizes input to prevent command injection (https://github.com/Temo27anas/SnapFault/blob/main/core/views.py#L127). The search results template (https://github.com/Temo27anas/SnapFault/blob/main/core/templates/search_results.html#L13) was also updated to properly handle the returned objects in the frontend.
 
-### FLAW 3: A06 - Vulnerable and Outdated Components
+### FLAW 3: A06-Vulnerable and Outdated Components
 Link: https://github.com/Temo27anas/SnapFault/blob/main/requirements-FAULT.txt
 
 This flaw refers to the use of outdated libraries, frameworks, or tools that contain known security vulnerabilities. If not regularly updated or patched, these components can be exploited by attackers.
