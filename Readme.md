@@ -58,7 +58,7 @@ This flaw stems from weak security design decisions. In this case, input validat
 
 Fix:  https://github.com/Temo27anas/SnapFault/blob/main/core/views.py#L66 \
 To address this flaw, we moved validation logic to the backend, enforcing checks on both file type and size before processing any upload request.
-________________________________________
+
 ### FLAW 5: A02–Cryptographic Failures
 Link: https://github.com/Temo27anas/SnapFault/blob/main/core/models.py#L21
 https://github.com/Temo27anas/SnapFault/blob/main/core/forms.py#L24 
