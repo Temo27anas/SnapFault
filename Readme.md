@@ -25,7 +25,7 @@ To run the SnapVault application locally, follow these steps:
 <code>python manage.py migrate </code>
 
 5.	Run the Development Server
-<code>python manage.py runserver <code>
+<code>python manage.py runserver </code>
 Then navigate to http://127.0.0.1:8000 in your browser to access the web app.
 
 
