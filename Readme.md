@@ -1,4 +1,5 @@
-# Installation
+# SnapFault
+## Installation
 Github Link: https://github.com/Temo27anas/SnapFault
 
 For this part of the project, we developed SnapVault, a Django-based photo-sharing web application intentionally designed with five vulnerabilities from the OWASP Top 10 (2021) to demonstrate common security flaws in modern web applications. SnapVault simulates a typical user experience, including functionalities such as user authentication, album management, photo uploading, and in-app photo search. Each vulnerability is documented, along with its location in the repo and an associated fix.
@@ -29,7 +30,7 @@ To run the SnapVault application locally, follow these steps:
 Then navigate to http://127.0.0.1:8000 in your browser to access the web app.
 
 
-# Vulnerabilities
+## Vulnerabilities
 The code contains 5 different vulnerabilities, defined with their corresponding OWASP-2021 vulnerability ID (Fix A01, Fix A03, Fix A06, ...). A commented fix accompanies each one that was tested for each vulnerability.
 
 ### FLAW 1: A01 - Broken Access Control
