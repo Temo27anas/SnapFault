@@ -25,7 +25,7 @@ class PhotoForm(forms.ModelForm):
         fields = ['album', 'image', 'caption', 'location']  # Comment this line to fix A02
 
     # Fix A02 2/2: 
-    #fields = ['album', 'image', 'caption'] # no location field in the form
+    #   fields = ['album', 'image', 'caption'] # no location field in the form
     #def save(self, commit=True):
     #   photo = super().save(commit=False)
     #   location = self.cleaned_data.get('location')
