@@ -17,7 +17,6 @@ To run the SnapVault application locally, follow these steps:
 
 <code> python3.9 -m venv venv</code>
 <code>source venv/bin/activate</code> (Linux/Mac)
-<<<<<<< HEAD
 
 3.	Install Required Dependencies
 <code>pip install -r requirements.txt </code>
@@ -34,8 +33,6 @@ Then navigate to http://127.0.0.1:8000 in your browser to access the web app.
 # Vulnerabilities
 The code contains 5 different vulnerabilities, defined with their corresponding OWASP-2021 vulnerability ID (Fix A01, Fix A03, Fix A06, ...). A commented fix accompanies each one that was tested for each vulnerability.
 
-=======
-
 3.	Install Required Dependencies
 <code>pip install -r requirements.txt </code>
 
@@ -50,8 +47,6 @@ Then navigate to http://127.0.0.1:8000 in your browser to access the web app.
 
 ## Vulnerabilities
 The code contains 5 different vulnerabilities, defined with their corresponding OWASP-2021 vulnerability ID (Fix A01, Fix A03, Fix A06, ...). A commented fix accompanies each one that was tested for each vulnerability.
-
->>>>>>> a1c15761cbecf47156e8da98f8777c724c913b65
 ### FLAW 1: A01 - Broken Access Control
 Link: https://github.com/Temo27anas/SnapFault/blob/main/core/views.py#L89
 
@@ -71,7 +66,7 @@ https://github.com/Temo27anas/SnapFault/blob/main/core/views.py#L110
 https://github.com/Temo27anas/SnapFault/blob/main/core/templates/search_results.html#L6
 
 This vulnerability allows attackers to send malicious data into a program (typically via input fields) where it can manipulate the database to access unauthorized data or execute unintended commands.
-In our application, the photo search feature enables users to search their uploaded photos by caption. The initial implementation of this feature was insecure and allowed SQL injection. For example, entering ?q=' in the search bar could expose unauthorized photos or even allow an attacker to alter or delete data.
+In our application, the photo search feature enables users to search their uploaded photos by caption. The initial implementation of this feature was insecure and allowed SQL injection. For example, entering: <code> ?q=' OR 1=1-- </code> in the search bar could expose unauthorized photos or even allow an attacker to alter or delete data.
 
 Fix:
 The issue was resolved by using Django’s Object-Relational Mapping (ORM) system, which safely parameterizes input to prevent command injection (https://github.com/Temo27anas/SnapFault/blob/main/core/views.py#L127). The search results template (https://github.com/Temo27anas/SnapFault/blob/main/core/templates/search_results.html#L13) was also updated to properly handle the returned objects in the frontend.
