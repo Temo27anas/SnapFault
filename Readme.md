@@ -29,22 +29,6 @@ To run the SnapVault application locally, follow these steps:
 <code>python manage.py runserver </code>
 Then navigate to http://127.0.0.1:8000 in your browser to access the web app.
 
-
-# Vulnerabilities
-The code contains 5 different vulnerabilities, defined with their corresponding OWASP-2021 vulnerability ID (Fix A01, Fix A03, Fix A06, ...). A commented fix accompanies each one that was tested for each vulnerability.
-
-3.	Install Required Dependencies
-<code>pip install -r requirements.txt </code>
-
-4.	Apply Migrations
-<code>python manage.py makemigrations  </code>
-<code>python manage.py migrate </code>
-
-5.	Run the Development Server
-<code>python manage.py runserver </code>
-Then navigate to http://127.0.0.1:8000 in your browser to access the web app.
-
-
 ## Vulnerabilities
 The code contains 5 different vulnerabilities, defined with their corresponding OWASP-2021 vulnerability ID (Fix A01, Fix A03, Fix A06, ...). A commented fix accompanies each one that was tested for each vulnerability.
 ### FLAW 1: A01 - Broken Access Control
@@ -87,7 +71,7 @@ This flaw stems from weak security design decisions. In this case, input validat
 
 Fix:  https://github.com/Temo27anas/SnapFault/blob/main/core/views.py#L66 \
 To address this flaw, we moved validation logic to the backend, enforcing checks on both file type and size before processing any upload request.
-________________________________________
+
 ### FLAW 5: A02 – Cryptographic Failures
 Link: https://github.com/Temo27anas/SnapFault/blob/main/core/models.py#L21
 https://github.com/Temo27anas/SnapFault/blob/main/core/forms.py#L24 
